@@ -30,10 +30,6 @@
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        html.dark {
-            /* Already dark by default */
-        }
-
         html:not(.dark) {
             --bg-primary: #F8FAFB;
             --bg-secondary: #FFFFFF;
@@ -68,6 +64,13 @@
             color: var(--text-primary);
             line-height: 1.7;
             overflow-x: hidden;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
         }
 
         /* ========== SCROLLBAR ========== */
@@ -167,6 +170,12 @@
             cursor: pointer;
         }
 
+        /* ========== TABLET NAV (evita overflow dos links) ========== */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .nav-links { gap: 18px; }
+            .nav-links a { font-size: 0.82rem; }
+        }
+
         /* ========== MOBILE NAV ========== */
         @media (max-width: 768px) {
             .nav-links {
@@ -180,6 +189,8 @@
                 border-bottom: 1px solid var(--border);
                 padding: 20px 24px;
                 gap: 16px;
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
             }
             .nav-links.open { display: flex; }
             .nav-toggle { display: block; }
@@ -190,6 +201,14 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 100px 24px;
+        }
+
+        @media (max-width: 768px) {
+            .section { padding: 72px 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .section { padding: 56px 16px; }
         }
 
         .section-label {
@@ -382,7 +401,7 @@
 
         .hero-title {
             font-family: 'Syne', sans-serif;
-            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-size: clamp(1.9rem, 9vw, 5rem);
             font-weight: 800;
             line-height: 1.05;
             letter-spacing: -2px;
@@ -461,7 +480,8 @@
 
         .hero-stats {
             display: flex;
-            gap: 48px;
+            flex-wrap: wrap;
+            gap: 32px 48px;
             margin-top: 64px;
             opacity: 0;
             transform: translateY(30px);
@@ -609,9 +629,15 @@
 
         .timeline-company {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 12px;
+            gap: 8px 12px;
             margin-bottom: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .timeline { padding-left: 24px; }
+            .timeline-item::before { left: -29px; }
         }
 
         .timeline-company h3 {
