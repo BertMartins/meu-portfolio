@@ -1,1224 +1,502 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Desenvolvedor Full Stack</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        :root {
-            --bg: #0C1015;
-            --bg-elevated: #121922;
-            --bg-inset: #171F29;
-            --accent: #C98A4B;
-            --accent-strong: #E0A468;
-            --on-accent: #0C1015;
-            --text: #ECE8E0;
-            --text-secondary: #A6ACB4;
-            --text-muted: #6D7580;
-            --border: #222B35;
-            --border-strong: #313D49;
-            --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-            --font-display: 'Fraunces', Georgia, serif;
-            --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            --radius: 8px;
-            --transition: 0.2s ease;
-        }
-
-        html:not(.dark) {
-            --bg: #FAF9F6;
-            --bg-elevated: #FFFFFF;
-            --bg-inset: #F1EFE9;
-            --accent: #9C5A25;
-            --accent-strong: #7E4718;
-            --on-accent: #FFFFFF;
-            --text: #1B1E22;
-            --text-secondary: #565D66;
-            --text-muted: #878E96;
-            --border: #E6E3DA;
-            --border-strong: #D4D0C4;
-            --shadow: 0 20px 50px rgba(20, 20, 10, 0.08);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 76px;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.65;
-            overflow-x: hidden;
-            overflow-wrap: break-word;
-            word-break: break-word;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        img { max-width: 100%; height: auto; }
-
-        a { color: inherit; }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-        /* ========== NAVIGATION ========== */
-        .nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            padding: 18px 0;
-            transition: var(--transition);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            background: transparent;
-        }
-
-        .nav.scrolled {
-            background: color-mix(in srgb, var(--bg) 88%, transparent);
-            border-bottom: 1px solid var(--border);
-            padding: 12px 0;
-        }
-
-        .nav-inner {
-            max-width: 1180px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .nav-logo {
-            font-family: var(--font-mono);
-            font-weight: 500;
-            font-size: 1.05rem;
-            color: var(--accent);
-            letter-spacing: -0.01em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color var(--transition);
-        }
-
-        .nav-links a:hover { color: var(--accent); }
-
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text);
-            font-size: 1.4rem;
-            cursor: pointer;
-            padding: 6px;
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .nav-links { gap: 18px; }
-            .nav-links a { font-size: 0.82rem; }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0; right: 0;
-                flex-direction: column;
-                background: var(--bg-elevated);
-                border-bottom: 1px solid var(--border);
-                padding: 20px 24px;
-                gap: 18px;
-                max-height: calc(100vh - 60px);
-                overflow-y: auto;
-            }
-            .nav-links.open { display: flex; }
-            .nav-links a { display: block; padding: 6px 0; font-size: 1rem; }
-            .nav-toggle { display: block; }
-        }
-
-        /* ========== SECTIONS ========== */
-        .section {
-            max-width: 1180px;
-            margin: 0 auto;
-            padding: 96px 24px;
-        }
-
-        @media (max-width: 768px) { .section { padding: 68px 20px; } }
-        @media (max-width: 480px) { .section { padding: 52px 20px; } }
-
-        .section-head { margin-bottom: 44px; }
-
-        .section-label {
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-        }
-
-        .section-label .idx { color: var(--accent); }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.65rem, 4.4vw, 2.3rem);
-            font-weight: 600;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
-        }
-
-        /* ========== HERO ========== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-grid {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 56px 56px;
-            mask-image: radial-gradient(ellipse at 50% 30%, black 0%, transparent 65%);
-            -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 0%, transparent 65%);
-            opacity: 0.6;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 1180px;
-            margin: 0 auto;
-            padding: 0 24px;
-            width: 100%;
-        }
-
-        .hero-inner {
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 48px;
-            align-items: center;
-        }
-
-        @media (max-width: 900px) {
-            .hero-inner { grid-template-columns: 1fr; gap: 32px; }
-            .hero-photo { order: -1; justify-content: flex-start; }
-        }
-
-        @media (max-width: 768px) {
-            .hero { min-height: auto; padding-top: 96px; padding-bottom: 48px; }
-        }
-
-        @media (max-width: 480px) { .hero { padding-top: 84px; } }
-
-        .hero-photo {
-            display: flex;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.7s ease forwards 0.25s;
-        }
-
-        .hero-photo-frame {
-            width: 220px;
-            height: 220px;
-            max-width: 45vw;
-            max-height: 45vw;
-            min-width: 140px;
-            min-height: 140px;
-            border-radius: 16px;
-            border: 2px solid var(--accent);
-            overflow: hidden;
-        }
-
-        .hero-photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 28px;
-            opacity: 0;
-            transform: translateY(16px);
-            animation: fadeUp 0.7s ease forwards 0.15s;
-        }
-
-        .hero-badge .dot {
-            width: 7px;
-            height: 7px;
-            background: var(--accent);
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.1rem, 8vw, 3.6rem);
-            font-weight: 600;
-            line-height: 1.1;
-            letter-spacing: -0.01em;
-            margin-bottom: 22px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.7s ease forwards 0.3s;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            color: var(--text-secondary);
-            max-width: 52ch;
-            margin-bottom: 36px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.7s ease forwards 0.45s;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.7s ease forwards 0.6s;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 13px 24px;
-            border-radius: var(--radius);
-            font-family: var(--font-body);
-            font-size: 0.92rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: border-color var(--transition), color var(--transition), background var(--transition);
-            cursor: pointer;
-            border: 1px solid transparent;
-            min-height: 44px;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: var(--on-accent);
-        }
-
-        .btn-primary:hover { background: var(--accent-strong); }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--text);
-            border-color: var(--border-strong);
-        }
-
-        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-specs {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 52px;
-            border-top: 1px solid var(--border);
-            padding-top: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.7s ease forwards 0.75s;
-        }
-
-        .hero-spec {
-            flex: 1 1 130px;
-            padding-right: 20px;
-        }
-
-        .hero-spec .num {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .hero-spec .label {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        @media (min-width: 561px) {
-            .hero-spec { border-left: 1px solid var(--border); padding-left: 20px; }
-            .hero-spec:first-child { border-left: none; padding-left: 0; }
-        }
-
-        @media (max-width: 560px) {
-            .hero-specs { flex-direction: column; }
-            .hero-spec { padding: 12px 0; border-top: 1px solid var(--border); }
-            .hero-spec:first-child { border-top: none; padding-top: 0; }
-        }
-
-        /* ========== ABOUT ========== */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 56px;
-            align-items: start;
-        }
-
-        @media (max-width: 768px) {
-            .about-grid { grid-template-columns: 1fr; gap: 36px; }
-        }
-
-        .about-text p {
-            color: var(--text-secondary);
-            margin-bottom: 18px;
-            font-size: 1.02rem;
-            max-width: 62ch;
-        }
-
-        .about-text strong { color: var(--text); font-weight: 600; }
-
-        .stack-list { border-top: 1px solid var(--border); }
-
-        .stack-row {
-            display: grid;
-            grid-template-columns: 130px 1fr;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        @media (max-width: 400px) {
-            .stack-row { grid-template-columns: 1fr; gap: 4px; }
-        }
-
-        .stack-row dt {
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            padding-top: 2px;
-        }
-
-        .stack-row dd {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-        }
-
-        /* ========== EXPERIENCE ========== */
-        .timeline { position: relative; padding-left: 28px; }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 6px; bottom: 6px;
-            width: 1px;
-            background: var(--border-strong);
-        }
-
-        .timeline-item { position: relative; margin-bottom: 44px; }
-        .timeline-item:last-child { margin-bottom: 0; }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -33px; top: 6px;
-            width: 9px; height: 9px;
-            border-radius: 50%;
-            background: var(--bg);
-            border: 1px solid var(--border-strong);
-        }
-
-        .timeline-item:first-child::before {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        @media (max-width: 480px) {
-            .timeline { padding-left: 20px; }
-            .timeline-item::before { left: -25px; }
-        }
-
-        .timeline-company {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 8px 12px;
-            margin-bottom: 4px;
-        }
-
-        .timeline-company h3 {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .timeline-company .badge {
-            padding: 3px 10px;
-            border-radius: 100px;
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-        }
-
-        .timeline-role {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-
-        .timeline-meta {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px 16px;
-        }
-
-        .timeline-meta span { display: flex; align-items: center; gap: 6px; }
-
-        .timeline-desc {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .timeline-desc li {
-            position: relative;
-            padding-left: 18px;
-            font-size: 0.94rem;
-            color: var(--text-secondary);
-        }
-
-        .timeline-desc li::before {
-            content: '–';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        .timeline-subrole {
-            margin-top: 28px;
-            padding-top: 22px;
-            border-top: 1px solid var(--border);
-        }
-
-        /* ========== PROJECTS ========== */
-        .project-row {
-            display: grid;
-            grid-template-columns: 44px 1fr;
-            gap: 20px;
-            padding: 32px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .project-row:first-child { padding-top: 0; }
-        .project-row:last-child { border-bottom: none; }
-
-        .project-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid var(--border-strong);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .project-body h3 {
-            font-family: var(--font-display);
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: -0.01em;
-        }
-
-        .project-body p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            max-width: 62ch;
-            margin-bottom: 16px;
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 14px;
-            margin-bottom: 14px;
-            font-family: var(--font-mono);
-            font-size: 0.76rem;
-            color: var(--text-muted);
-        }
-
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .project-link:hover { color: var(--accent-strong); }
-        .project-link i { font-size: 0.72rem; }
-
-        @media (max-width: 480px) {
-            .project-row { grid-template-columns: 1fr; gap: 12px; }
-        }
-
-        /* ========== EDUCATION ========== */
-        .edu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-        }
-
-        @media (max-width: 768px) { .edu-grid { grid-template-columns: 1fr; } }
-
-        .edu-card {
-            background: var(--bg);
-            padding: 28px;
-            border-left: 2px solid var(--accent);
-        }
-
-        .edu-card h3 {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .edu-card .edu-school {
-            font-size: 0.92rem;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-        }
-
-        .edu-card .edu-period {
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* ========== CERTIFICATES ========== */
-        .certs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            column-gap: 32px;
-        }
-
-        .cert-row {
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .cert-info h4 {
-            font-size: 0.92rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 4px;
-        }
-
-        .cert-info .cert-issuer {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-        }
-
-        .cert-info .cert-date {
-            font-family: var(--font-mono);
-            font-size: 0.74rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        /* ========== SKILLS ========== */
-        .skills-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 36px 48px;
-        }
-
-        @media (max-width: 768px) {
-            .skills-container { grid-template-columns: 1fr; gap: 28px; }
-        }
-
-        .skill-category h3 {
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
-        .skill-tag {
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            border: 1px solid var(--border-strong);
-            color: var(--text-secondary);
-            transition: border-color var(--transition), color var(--transition);
-        }
-
-        .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
-
-        /* ========== FOOTER ========== */
-        .footer {
-            border-top: 1px solid var(--border);
-            padding: 56px 24px;
-            text-align: center;
-        }
-
-        .footer-inner { max-width: 1180px; margin: 0 auto; }
-
-        .footer-cta {
-            font-family: var(--font-display);
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            font-weight: 600;
-            margin-bottom: 14px;
-            letter-spacing: -0.01em;
-        }
-
-        .footer-text {
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            margin-bottom: 28px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 40px;
-        }
-
-        .footer-link {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid var(--border-strong);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            transition: border-color var(--transition), color var(--transition);
-            text-decoration: none;
-        }
-
-        .footer-link:hover { border-color: var(--accent); color: var(--accent); }
-
-        .footer-copy { color: var(--text-muted); font-size: 0.8rem; }
-
-        /* ========== ACCESSIBILITY / MOTION ========== */
-        a:focus-visible, button:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .hero-badge, .hero-title, .hero-subtitle, .hero-cta, .hero-specs, .hero-photo {
-                animation: none !important;
-                opacity: 1 !important;
-                transform: none !important;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heberte Martins | Desenvolvedor Full Stack .NET</title>
+<meta name="description" content="Heberte Martins é desenvolvedor full stack .NET em Aracaju. Mantém sistemas em ASP.NET Web Forms, migra sistemas legados para APIs REST em ASP.NET e desenvolve aplicações em Blazor.">
+<link rel="canonical" href="https://bertprojetos.com.br/">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Heberte Martins | Desenvolvedor Full Stack .NET">
+<meta property="og:description" content="C#, ASP.NET, Blazor e Web Forms. Migração de sistemas legados e APIs REST.">
+<meta property="og:url" content="https://bertprojetos.com.br/">
+<meta property="og:image" content="https://bertprojetos.com.br/img/Person.jpeg">
+<meta name="theme-color" content="#F5F6F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1117" media="(prefers-color-scheme: dark)">
+
+<!-- Dados estruturados: ajudam buscadores e IAs a entender quem é a pessoa do site -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Heberte Martins",
+  "jobTitle": "Desenvolvedor Full Stack .NET",
+  "url": "https://bertprojetos.com.br/",
+  "image": "https://bertprojetos.com.br/img/Person.jpeg",
+  "email": "mailto:heberteuallan1@gmail.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Aracaju", "addressRegion": "SE", "addressCountry": "BR" },
+  "worksFor": { "@type": "Organization", "name": "Grupo FASITEC" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "UNINASSAU" },
+  "knowsAbout": ["C#", "ASP.NET", "Blazor", "ASP.NET Web Forms", "APIs REST", "Migração de sistemas legados", "RabbitMQ", "Hangfire", "Azure DevOps", "SQL Server", "PostgreSQL"],
+  "sameAs": ["https://www.linkedin.com/in/hebertemartins", "https://github.com/BertMartins"]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/*
+  Direção visual
+  - O tema do site é migração: carreira (suporte/QA -> dev) e sistemas (Web Forms -> API -> Blazor).
+  - O único elemento chamativo é o "diff" do topo. O resto fica silencioso.
+  - Violeta próximo ao do ecossistema .NET como único acento. Verde e vermelho só existem dentro do diff.
+  - Uma família (Onest) para tudo; monoespaçada apenas onde há código de verdade.
+  - Espaçamentos em múltiplos de 4px (escala Tailwind).
+*/
+:root {
+  --bg: #F5F6F8;
+  --surface: #FFFFFF;
+  --ink: #161922;
+  --ink-2: #4E5462;
+  --ink-3: #7C8291;
+  --line: #E3E5EA;
+  --accent: #5639D0;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #EEEAFD;
+  --add: #1D7A4C;
+  --add-bg: #E6F4EC;
+  --del: #B23A33;
+  --del-bg: #FBEAE8;
+  --radius-sm: 6px;
+  --radius: 12px;
+  --font: 'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --wrap: 1120px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0F1117;
+    --surface: #171A23;
+    --ink: #E7E9EF;
+    --ink-2: #A9AEBB;
+    --ink-3: #7A8090;
+    --line: #262A36;
+    --accent: #9D8BFF;
+    --accent-ink: #0F1117;
+    --accent-soft: #221D3D;
+    --add: #5CC98F;
+    --add-bg: #13281E;
+    --del: #F08A80;
+    --del-bg: #2E1716;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+@media (max-width: 480px) { .wrap { padding: 0 16px; } }
+
+/* ---------- Topo ---------- */
+.top {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s ease;
+}
+.top.scrolled { border-bottom-color: var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { font-weight: 600; text-decoration: none; letter-spacing: -0.01em; }
+.menu { display: flex; align-items: center; gap: 28px; list-style: none; }
+.menu a { text-decoration: none; color: var(--ink-2); font-size: 15px; font-weight: 500; }
+.menu a:hover { color: var(--ink); }
+.menu .menu-cta a {
+  color: var(--accent-ink); background: var(--accent);
+  padding: 8px 16px; border-radius: var(--radius-sm);
+}
+.menu .menu-cta a:hover { color: var(--accent-ink); filter: brightness(1.08); }
+@media (max-width: 720px) { .menu li:not(.menu-cta) { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { padding: 80px 0 96px; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } .hero { padding: 48px 0 64px; } }
+
+.who { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.who img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.who-name { font-weight: 600; line-height: 1.3; }
+.who-place { color: var(--ink-3); font-size: 15px; }
+
+.hero h1 {
+  font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  max-width: 16ch;
+}
+.hero-lead { color: var(--ink-2); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 46ch; margin-bottom: 36px; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 10px 20px;
+  border-radius: var(--radius-sm); border: 1px solid var(--line);
+  font: 600 15px/1 var(--font); text-decoration: none;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { background: var(--surface); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--ink-3); }
+.btn svg { width: 18px; height: 18px; }
+
+/* O diff: o elemento memorável da página */
+.diff {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--accent) 35%, transparent);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow: hidden;
+}
+.diff-file {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: 10px 16px; border-bottom: 1px solid var(--line);
+  color: var(--ink-3); font-size: 13px;
+}
+.diff-file + .diff-body + .diff-file { border-top: 1px solid var(--line); }
+.diff-body { padding: 8px 0; }
+.ln { display: grid; grid-template-columns: 28px 1fr; padding: 2px 16px 2px 0; }
+.ln span:first-child { text-align: center; user-select: none; }
+.ln.del { background: var(--del-bg); color: var(--del); }
+.ln.add { background: var(--add-bg); color: var(--add); }
+.ln small { color: var(--ink-3); font-size: 12.5px; }
+.ln.del small, .ln.add small { color: inherit; opacity: .7; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .diff .ln { opacity: 0; transform: translateX(-6px); animation: lineIn .35s ease-out forwards; }
+  .diff .ln:nth-child(1) { animation-delay: .25s; }
+  .diff .ln:nth-child(2) { animation-delay: .45s; }
+  .diff .ln:nth-child(3) { animation-delay: .65s; }
+  .diff-body:last-of-type .ln:nth-child(1) { animation-delay: .95s; }
+  .diff-body:last-of-type .ln:nth-child(2) { animation-delay: 1.15s; }
+  .diff-body:last-of-type .ln:nth-child(3) { animation-delay: 1.35s; }
+  @keyframes lineIn { to { opacity: 1; transform: none; } }
+}
+
+/* ---------- Seções ---------- */
+section.block { padding: 88px 0; border-top: 1px solid var(--line); }
+@media (max-width: 720px) { section.block { padding: 64px 0; } }
+.block h2 { font-size: clamp(1.6rem, 3.4vw, 2.1rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 12px; }
+.block .intro { color: var(--ink-2); max-width: 60ch; margin-bottom: 40px; }
+
+/* Sobre */
+.about { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
+@media (max-width: 860px) { .about { grid-template-columns: 1fr; gap: 40px; } }
+.about-text p { color: var(--ink-2); max-width: 62ch; margin-bottom: 16px; }
+.about-text strong { color: var(--ink); font-weight: 600; }
+
+.stack { border-top: 1px solid var(--line); }
+.stack div { display: grid; grid-template-columns: 132px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.stack dt { color: var(--ink-3); font-size: 15px; }
+.stack dd { font-size: 15px; }
+@media (max-width: 420px) { .stack div { grid-template-columns: 1fr; gap: 2px; } }
+
+/* Experiência (é uma sequência real, por isso a linha do tempo) */
+.timeline { list-style: none; position: relative; padding-left: 28px; max-width: 760px; }
+.timeline::before { content: ""; position: absolute; left: 4px; top: 10px; bottom: 10px; width: 1px; background: var(--line); }
+.job { position: relative; padding-bottom: 48px; }
+.job:last-child { padding-bottom: 0; }
+.job::before {
+  content: ""; position: absolute; left: -28px; top: 9px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--ink-3);
+}
+.job.now::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.job h3 { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+.job .role { font-weight: 500; }
+.job .when { color: var(--ink-3); font-size: 15px; font-variant-numeric: tabular-nums; margin: 2px 0 14px; }
+.job ul { list-style: none; display: grid; gap: 6px; }
+.job li { position: relative; padding-left: 18px; color: var(--ink-2); font-size: 16px; }
+.job li::before { content: ""; position: absolute; left: 2px; top: 11px; width: 6px; height: 1px; background: var(--ink-3); }
+.subrole { margin-top: 24px; }
+.job .before { color: var(--ink-3); font-size: 15px; }
+
+/* Projetos */
+.projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 900px) { .projects { grid-template-columns: 1fr; } }
+.project {
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 24px; text-decoration: none;
+  transition: border-color .15s ease;
+}
+.project:hover { border-color: var(--accent); }
+.project h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
+.project p { color: var(--ink-2); font-size: 15.5px; margin-bottom: 20px; flex: 1; }
+.project .meta { color: var(--ink-3); font-size: 14px; }
+.project .go { color: var(--accent); font-weight: 600; font-size: 15px; margin-top: 12px; }
+
+/* Formação e certificados */
+.learn { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 64px; }
+@media (max-width: 860px) { .learn { grid-template-columns: 1fr; gap: 40px; } }
+.learn h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 16px; }
+.edu { display: grid; gap: 20px; }
+.edu p { color: var(--ink-2); font-size: 15px; }
+.edu strong { display: block; color: var(--ink); font-weight: 600; font-size: 16px; }
+.certs { list-style: none; columns: 2 280px; column-gap: 32px; }
+.certs li { break-inside: avoid; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.certs span { display: block; color: var(--ink-3); font-size: 14px; }
+
+/* Contato */
+.contact { padding: 96px 0; border-top: 1px solid var(--line); }
+.contact h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; max-width: 20ch; margin-bottom: 16px; }
+.contact p { color: var(--ink-2); max-width: 54ch; margin-bottom: 32px; }
+footer { padding: 24px 0 40px; color: var(--ink-3); font-size: 14px; }
+</style>
 </head>
 <body>
-    <!-- ========== NAVIGATION ========== -->
-    <nav class="nav" id="nav">
-        <div class="nav-inner">
-            <div class="nav-logo">&lt;FullStack /&gt;</div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#experiencia">Experiência</a></li>
-                <li><a href="#projetos">Projetos</a></li>
-                <li><a href="#formacao">Formação</a></li>
-                <li><a href="#certificados">Certificados</a></li>
-                <li><a href="#habilidades">Skills</a></li>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a href="#inicio" class="brand">Heberte Martins</a>
+    <ul class="menu">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#experiencia">Experiência</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#formacao">Formação</a></li>
+      <li class="menu-cta"><a href="#contato">Contato</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="who">
+          <img src="img/Person.jpeg" alt="Foto de Heberte Martins" width="56" height="56">
+          <div>
+            <div class="who-name">Heberte Martins</div>
+            <div class="who-place">Aracaju, Sergipe</div>
+          </div>
+        </div>
+        <h1>Desenvolvedor full stack .NET</h1>
+        <p class="hero-lead">Mantenho sistemas em ASP.NET Web Forms, migro o que é legado para APIs REST em ASP.NET e construo o que é novo em Blazor.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#contato">Falar comigo</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/hebertemartins" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/BertMartins" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .3"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="diff" aria-label="Resumo em formato de diff: de suporte e QA para desenvolvedor, e de Web Forms para API em ASP.NET e Blazor">
+        <div class="diff-file"><span>carreira.diff</span><span>2021 → hoje</span></div>
+        <div class="diff-body">
+          <div class="ln del"><span>-</span><span>atendimento N2, implantação e QA</span></div>
+          <div class="ln add"><span>+</span><span>desenvolvedor full stack .NET</span></div>
+          <div class="ln"><span> </span><span><small>  a visão de quem usa o sistema veio junto</small></span></div>
+        </div>
+        <div class="diff-file"><span>sistema.diff</span><span>em andamento</span></div>
+        <div class="diff-body">
+          <div class="ln del"><span>-</span><span>Default.aspx <small>Web Forms</small></span></div>
+          <div class="ln add"><span>+</span><span>GET /api/... <small>ASP.NET</small></span></div>
+          <div class="ln add"><span>+</span><span>Pagina.razor <small>Blazor</small></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section class="block" id="sobre">
+    <div class="wrap about">
+      <div class="about-text">
+        <h2>Sobre</h2>
+        <p>Antes de programar, passei por atendimento N2, implantação, QA e suporte a integrações de pagamento. Por isso escrevo código pensando desde o início na integração, no teste e em quem vai usar.</p>
+        <p>Há mais de 3 anos no <strong>Grupo FASITEC</strong>, atuo em vários projetos ao mesmo tempo: mantenho um sistema em produção em <strong>ASP.NET Web Forms</strong>, participo da migração desse sistema para uma <strong>API REST em ASP.NET</strong> e desenvolvo uma aplicação em <strong>Blazor</strong>.</p>
+        <p>Na Appmax, configurei integrações de checkout com Yampi, CartPanda, Nuvemshop e o ERP Bling. Na Avonale, testei o sistema FANDI contra bancos como Bradesco, Santander e Itaú e ERPs como Linx, NBS e Salesforce.</p>
+      </div>
+      <dl class="stack" aria-label="Tecnologias">
+        <div><dt>Back-end</dt><dd>C#, ASP.NET, Web Forms, APIs REST</dd></div>
+        <div><dt>Front-end</dt><dd>Blazor, Bootstrap, Tailwind CSS, JavaScript</dd></div>
+        <div><dt>Bancos de dados</dt><dd>SQL Server, PostgreSQL, MySQL, MongoDB</dd></div>
+        <div><dt>Filas e jobs</dt><dd>RabbitMQ, Hangfire</dd></div>
+        <div><dt>DevOps</dt><dd>Azure DevOps, pipelines CI/CD, Azure, Git</dd></div>
+        <div><dt>Testes</dt><dd>xUnit, NUnit, Moq, Postman, SOAP, JMeter</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Experiência -->
+  <section class="block" id="experiencia">
+    <div class="wrap">
+      <h2>Experiência</h2>
+      <p class="intro">Do atendimento ao desenvolvimento, sempre perto de sistemas e de quem usa eles.</p>
+      <ol class="timeline">
+        <li class="job now">
+          <h3>Grupo FASITEC</h3>
+          <div class="role">Desenvolvedor Full Stack ASP.NET C#</div>
+          <div class="when">jul. 2023 até hoje, Aracaju (presencial)</div>
+          <ul>
+            <li>Atuo em vários projetos web com C#, ASP.NET, Blazor e Web Forms</li>
+            <li>Migro um sistema legado em Web Forms para uma API REST em ASP.NET</li>
+            <li>Desenvolvo e mantenho uma aplicação em Blazor</li>
+            <li>Mantenho e evoluo um sistema em produção em ASP.NET Web Forms</li>
+            <li>Automatizo processos com filas RabbitMQ e jobs agendados no Hangfire</li>
+            <li>Integro sistemas de terceiros via APIs REST, validadas com Postman</li>
+            <li>Modelo e otimizo consultas em MySQL, MongoDB e SQL Server</li>
+            <li>Publico entregas com pipelines CI/CD no Azure DevOps</li>
+          </ul>
+        </li>
+
+        <li class="job">
+          <h3>Appmax</h3>
+          <div class="role">Customer Integration</div>
+          <div class="when">jun. 2022 a jun. 2023, remoto</div>
+          <ul>
+            <li>Conduzi o onboarding técnico de lojistas na plataforma de pagamentos</li>
+            <li>Configurei integrações de checkout com Yampi, CartPanda e Nuvemshop</li>
+            <li>Apoiei integrações com o ERP Bling</li>
+            <li>Monitorei e corrigi falhas de API em integrações B2B</li>
+            <li>Analisei dados de integração em planilhas e MySQL</li>
+          </ul>
+        </li>
+
+        <li class="job">
+          <h3>Avonale WorkPlace</h3>
+          <div class="role">Analista de Teste/QA Jr</div>
+          <div class="when">fev. 2022 a mai. 2022, Aracaju</div>
+          <ul>
+            <li>Escrevi cenários e casos de teste manuais, funcionais e de regressão</li>
+            <li>Testei integrações com Postman e SOAP</li>
+            <li>Documentei funcionalidades entregues e participei do roadmap</li>
+          </ul>
+          <div class="subrole">
+            <div class="role">Pré-implantador</div>
+            <div class="when">mai. 2021 a jan. 2022</div>
+            <ul>
+              <li>Configurei o sistema FANDI (gestão de F&amp;I) para novos clientes</li>
+              <li>Testei integrações com bancos (Bradesco, Santander, Itaú) e ERPs (Linx, NBS, Dealer, Salesforce)</li>
+              <li>Mapeei processos com o cliente e dei suporte pós-implantação</li>
             </ul>
-            <button class="nav-toggle" id="navToggle" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
+          </div>
+          <div class="subrole">
+            <div class="role">Consultor de atendimento ao cliente</div>
+            <div class="when">jan. 2021 a mai. 2021</div>
+            <ul>
+              <li>Atendimento N2 com análise técnica dos chamados do sistema FANDI</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="job">
+          <h3>Antes da tecnologia</h3>
+          <p class="before">Garantia e administrativo em concessionárias (Sevel Hyundai e Mardiza Veículos), de 2019 a 2021, começando como jovem aprendiz.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Projetos -->
+  <section class="block" id="projetos">
+    <div class="wrap">
+      <h2>Projetos</h2>
+      <p class="intro">O que eu construo fora do horário de trabalho.</p>
+      <div class="projects">
+        <a class="project" href="https://jogano.com.br/" target="_blank" rel="noopener noreferrer">
+          <h3>Jogano</h3>
+          <p>Gestão de clubes esportivos: jogos e campeonatos, sorteio de times equilibrados, placar em tempo real, rankings, financeiro e pagamentos pelo Mercado Pago.</p>
+          <span class="meta">Blazor</span>
+          <span class="go">Abrir jogano.com.br</span>
+        </a>
+        <a class="project" href="https://estud-ai-eta.vercel.app/" target="_blank" rel="noopener noreferrer">
+          <h3>EstudAI</h3>
+          <p>Plataforma de estudos que usa inteligência artificial para adaptar o conteúdo a cada pessoa.</p>
+          <span class="meta">IA, web app</span>
+          <span class="go">Abrir projeto</span>
+        </a>
+        <a class="project" href="https://bertmartins.github.io/Calculadora_media/" target="_blank" rel="noopener noreferrer">
+          <h3>Calculadora de média</h3>
+          <p>Meu primeiro projeto da faculdade: calcula a média acadêmica nas regras do Grupo Ser Educacional.</p>
+          <span class="meta">JavaScript, HTML, CSS</span>
+          <span class="go">Abrir projeto</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formação e certificados -->
+  <section class="block" id="formacao">
+    <div class="wrap">
+      <h2>Formação</h2>
+      <p class="intro">Graduação em sistemas e cursos focados em testes, segurança e boas práticas.</p>
+      <div class="learn">
+        <div class="edu">
+          <p><strong>Análise e Desenvolvimento de Sistemas</strong>UNINASSAU, 2022 a 2023</p>
+          <p><strong>Manutenção de Computadores e Celulares</strong>CEBRAC, 2021 a 2022</p>
+          <p><strong>Inglês</strong>IFSUL, 2024</p>
         </div>
-    </nav>
-
-    <!-- ========== HERO ========== -->
-    <section class="hero" id="hero">
-        <div class="hero-grid"></div>
-        <div class="hero-content">
-            <div class="hero-inner">
-                <div class="hero-text">
-                    <div class="hero-badge">
-                        <span class="dot"></span>
-                        Disponível para novos desafios
-                    </div>
-                    <h1 class="hero-title">
-                        Desenvolvedor<br>
-                        Full Stack<br>
-                        ASP.NET & C#
-                    </h1>
-                    <p class="hero-subtitle">
-                        Construindo soluções web completas — do back-end ao front-end — com foco em código limpo, performance e experiência do usuário.
-                    </p>
-                    <div class="hero-cta">
-                        <a href="#projetos" class="btn btn-primary">Ver Projetos</a>
-                        <a href="#experiencia" class="btn btn-outline">
-                            <i class="fas fa-briefcase"></i> Experiência
-                        </a>
-                    </div>
-                    <div class="hero-specs">
-                        <div class="hero-spec">
-                            <div class="num">3+</div>
-                            <div class="label">Anos de experiência</div>
-                        </div>
-                        <div class="hero-spec">
-                            <div class="num">3</div>
-                            <div class="label">Empresas</div>
-                        </div>
-                        <div class="hero-spec">
-                            <div class="num">15+</div>
-                            <div class="label">Certificados</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-photo">
-                    <div class="hero-photo-frame">
-                        <img src="img/Person.jpeg" alt="Foto de perfil - Desenvolvedor Full Stack">
-                    </div>
-                </div>
-            </div>
+        <div>
+          <h3>Certificados</h3>
+          <ul class="certs">
+            <li>TDD em C# com xUnit, NUnit e Moq<span>Udemy, 2025</span></li>
+            <li>Segurança da Informação e Privacidade de Dados<span>BMI Consultoria, 2025</span></li>
+            <li>Segurança em Tecnologia da Informação<span>Fundação Bradesco, 2024</span></li>
+            <li>Lei Geral de Proteção de Dados (LGPD)<span>Fundação Bradesco, 2024</span></li>
+            <li>Testes automáticos de software<span>Udemy, 2024</span></li>
+            <li>JMeter: testes de performance<span>Udemy, 2023</span></li>
+            <li>Engenharia de Requisitos<span>Alura, 2023</span></li>
+            <li>Comunicação Não Violenta<span>Alura, 2023</span></li>
+            <li>Customer Success<span>Alura, 2023</span></li>
+            <li>Prevenção à Lavagem de Dinheiro<span>Compliasset, 2022</span></li>
+            <li>Lógica de Programação: JavaScript e HTML<span>Alura, 2022</span></li>
+            <li>Git e GitHub<span>Alura, 2022</span></li>
+          </ul>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- ========== SOBRE ========== -->
-    <section class="section" id="sobre">
-        <div class="section-head">
-            <div class="section-label"><span class="idx">01</span>Sobre mim</div>
-            <div class="section-title">Transformando ideias em soluções digitais</div>
-        </div>
-        <div class="about-grid">
-            <div class="about-text">
-                <p>
-                    Sou um <strong>Desenvolvedor Full Stack</strong> com mais de 3 anos de experiência profissional, especializado em <strong>ASP.NET e C#</strong>. Atualmente atuo no <strong>Grupo FASITEC</strong>, onde desenvolvo e mantenho aplicações web robustas e escaláveis.
-                </p>
-                <p>
-                    Minha trajetória inclui experiência com <strong>Webforms, Blazor e APIs REST em ASP.NET</strong>, além de trabalho com bancos de dados como <strong>PostgreSQL, SQL Server, MySQL e MongoDB</strong>. Tenho vivência com ferramentas de CI/CD via <strong>Azure DevOps</strong> e serviços em nuvem da Azure.
-                </p>
-                <p>
-                    Antes de me tornar desenvolvedor, passei por áreas de suporte técnico, QA e integração de sistemas — o que me deu uma visão ampla de todo o ciclo de vida do software e uma forte empatia com o usuário final.
-                </p>
-            </div>
-            <dl class="stack-list">
-                <div class="stack-row">
-                    <dt>Back-End</dt>
-                    <dd>ASP.NET, C#, APIs REST, RabbitMQ, Hangfire</dd>
-                </div>
-                <div class="stack-row">
-                    <dt>Front-End</dt>
-                    <dd>Blazor, Bootstrap, Tailwind CSS, interfaces responsivas</dd>
-                </div>
-                <div class="stack-row">
-                    <dt>Banco de Dados</dt>
-                    <dd>PostgreSQL, SQL Server, MySQL, MongoDB</dd>
-                </div>
-                <div class="stack-row">
-                    <dt>DevOps &amp; Cloud</dt>
-                    <dd>Azure DevOps, CI/CD Pipelines, Azure Cloud</dd>
-                </div>
-            </dl>
-        </div>
-    </section>
+  <!-- Contato -->
+  <section class="contact" id="contato">
+    <div class="wrap">
+      <h2>Contratando dev .NET?</h2>
+      <p>Se o seu time precisa modernizar um sistema ou de alguém que entende integração e usuário final, me mande um e-mail ou uma mensagem no LinkedIn.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="mailto:heberteuallan1@gmail.com">Enviar e-mail</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/hebertemartins" target="_blank" rel="noopener noreferrer">Mensagem no LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/BertMartins" target="_blank" rel="noopener noreferrer">Ver GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
 
-    <!-- ========== EXPERIÊNCIA ========== -->
-    <section class="section" id="experiencia">
-        <div class="section-head">
-            <div class="section-label"><span class="idx">02</span>Experiência</div>
-            <div class="section-title">Minha jornada profissional</div>
-        </div>
-        <div class="timeline">
-            <!-- FASITEC -->
-            <div class="timeline-item">
-                <div class="timeline-company">
-                    <h3>Grupo FASITEC</h3>
-                    <span class="badge">Atual</span>
-                </div>
-                <div class="timeline-role">Desenvolvedor Full Stack ASP.NET C#</div>
-                <div class="timeline-meta">
-                    <span><i class="far fa-calendar"></i> Jul 2023 — Presente · 3 anos+</span>
-                    <span><i class="fas fa-map-marker-alt"></i> Aracaju, SE · Presencial</span>
-                </div>
-                <ul class="timeline-desc">
-                    <li>Desenvolvimento e manutenção de aplicações web utilizando ASP.NET e C#</li>
-                    <li>Criação de interfaces responsivas e dinâmicas com Bootstrap e Tailwind</li>
-                    <li>Atuação em soluções completas, desde o back-end até o front-end, seguindo princípios de clean code</li>
-                    <li>Experiência com RabbitMQ e Hangfire para filas e jobs assíncronos</li>
-                    <li>Integração com sistemas de terceiros e APIs REST</li>
-                    <li>Bancos de dados MySQL e MongoDB com modelagem eficiente</li>
-                    <li>Pipelines CI/CD com Azure DevOps e serviços Azure Cloud</li>
-                    <li>Trabalho com Webforms, Blazor e APIs em ASP.NET</li>
-                </ul>
-            </div>
+<footer>
+  <div class="wrap">Heberte Martins, Aracaju. heberteuallan1@gmail.com</div>
+</footer>
 
-            <!-- APPMAX -->
-            <div class="timeline-item">
-                <div class="timeline-company">
-                    <h3>Appmax</h3>
-                </div>
-                <div class="timeline-role">Customer Integration</div>
-                <div class="timeline-meta">
-                    <span><i class="far fa-calendar"></i> Jun 2022 — Jun 2023 · 1 ano 1 mês</span>
-                    <span><i class="fas fa-map-marker-alt"></i> Porto Alegre, RS · Remoto</span>
-                </div>
-                <ul class="timeline-desc">
-                    <li>Suporte técnico B2B e onboarding de novos lojistas</li>
-                    <li>Integração de plataformas de pagamento com e-commerces</li>
-                    <li>Configuração de plataformas de checkout (Yampi, CartPanda, Nuvemshop)</li>
-                    <li>Integrações com ERP Bling e banco de dados MySQL</li>
-                    <li>Monitoramento e resolução de problemas em APIs</li>
-                    <li>Ferramentas: Intercom, Jira, Helpdesk</li>
-                </ul>
-            </div>
-
-            <!-- AVONALE -->
-            <div class="timeline-item">
-                <div class="timeline-company">
-                    <h3>Avonale WorkPlace</h3>
-                </div>
-                <div class="timeline-role">Analista de Teste/QA Jr</div>
-                <div class="timeline-meta">
-                    <span><i class="far fa-calendar"></i> Fev 2022 — Mai 2022 · 4 meses</span>
-                    <span><i class="fas fa-map-marker-alt"></i> Aracaju, SE</span>
-                </div>
-                <ul class="timeline-desc">
-                    <li>Elaboração de cenários e casos de testes manuais, funcionais e de regressão</li>
-                    <li>Análise de erros e melhorias, participação em Roadmap</li>
-                    <li>Ferramentas: Freshdesk, ClickUp, Postman, SOAP, VS Code</li>
-                    <li>Criação e atualização de documentações técnicas</li>
-                </ul>
-
-                <div class="timeline-subrole">
-                    <div class="timeline-role">Pré Implantador</div>
-                    <div class="timeline-meta">
-                        <span><i class="far fa-calendar"></i> Mai 2021 — Jan 2022 · 9 meses</span>
-                    </div>
-                    <ul class="timeline-desc">
-                        <li>Configurações técnicas e comerciais do sistema FANDI (gestão F&I)</li>
-                        <li>Mapeamento de processos e implantação junto ao cliente</li>
-                        <li>Testes bancários (Bradesco, Santander, Itaú) e com ERPs (LINX, NBS, Dealer, Salesforce)</li>
-                        <li>Testes com Postman e SOAP, suporte pós-implantação</li>
-                    </ul>
-                </div>
-
-                <div class="timeline-subrole">
-                    <div class="timeline-role">Consultor de Atendimento ao Cliente</div>
-                    <div class="timeline-meta">
-                        <span><i class="far fa-calendar"></i> Jan 2021 — Mai 2021 · 5 meses</span>
-                    </div>
-                    <ul class="timeline-desc">
-                        <li>Atendimento ao cliente e suporte técnico N2</li>
-                        <li>Análise técnica de chamados referentes ao sistema FANDI</li>
-                        <li>Tratativa e acompanhamento de solicitações</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== PROJETOS ========== -->
-    <section class="section" id="projetos">
-        <div class="section-head">
-            <div class="section-label"><span class="idx">03</span>Projetos</div>
-            <div class="section-title">Coisas que eu construí</div>
-        </div>
-        <div class="projects-list">
-            <!-- Project 1: EstudAI -->
-            <div class="project-row">
-                <div class="project-icon"><i class="fas fa-brain"></i></div>
-                <div class="project-body">
-                    <h3>EstudAI</h3>
-                    <p>Plataforma de estudos inteligente que utiliza Inteligência Artificial para personalizar a experiência de aprendizado dos usuários.</p>
-                    <div class="project-tags">
-                        <span>IA</span><span>Educação</span><span>Web App</span>
-                    </div>
-                    <a href="https://estud-ai-eta.vercel.app/" class="project-link" target="_blank" rel="noopener noreferrer">
-                        Ver Projeto <i class="fas fa-arrow-up-right-from-square"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Project 2: Jogano -->
-            <div class="project-row">
-                <div class="project-icon"><i class="fas fa-volleyball"></i></div>
-                <div class="project-body">
-                    <h3>Jogano</h3>
-                    <p>Plataforma completa para gestão de clubes esportivos — organização de jogos e campeonatos, formação equilibrada de times, placar em tempo real, rankings, gestão financeira e pagamentos integrados via Mercado Pago.</p>
-                    <div class="project-tags">
-                        <span>Organização</span><span>Clubs</span><span>Comunidade</span>
-                    </div>
-                    <a href="https://jogano.com.br/" class="project-link" target="_blank" rel="noopener noreferrer">
-                        Ver Projeto <i class="fas fa-arrow-up-right-from-square"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Project 3: Calculadora de Média -->
-            <div class="project-row">
-                <div class="project-icon"><i class="fas fa-calculator"></i></div>
-                <div class="project-body">
-                    <h3>Calculadora de Média — GrupoSer</h3>
-                    <p>Meu primeiro projeto na faculdade: uma calculadora de média acadêmica desenvolvida para o GrupoSer, marcando o início da minha jornada como desenvolvedor.</p>
-                    <div class="project-tags">
-                        <span>Faculdade</span><span>Educação</span><span>Primeiro Projeto</span>
-                    </div>
-                    <a href="https://bertmartins.github.io/Calculadora_media/" class="project-link" target="_blank" rel="noopener noreferrer">
-                        Ver Projeto <i class="fas fa-arrow-up-right-from-square"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== FORMAÇÃO ========== -->
-    <section class="section" id="formacao">
-        <div class="section-head">
-            <div class="section-label"><span class="idx">04</span>Formação Acadêmica</div>
-            <div class="section-title">Onde eu aprendi</div>
-        </div>
-        <div class="edu-grid">
-            <div class="edu-card">
-                <h3>Análise e Desenvolvimento de Sistemas</h3>
-                <div class="edu-school">UNINASSAU</div>
-                <div class="edu-period"><i class="far fa-calendar"></i> Fev 2022 — Dez 2023</div>
-            </div>
-            <div class="edu-card">
-                <h3>Manutenção de Computadores e Celulares</h3>
-                <div class="edu-school">CEBRAC</div>
-                <div class="edu-period"><i class="far fa-calendar"></i> Fev 2021 — Fev 2022</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== CERTIFICADOS ========== -->
-    <section class="section" id="certificados">
-        <div class="section-head">
-            <div class="section-label"><span class="idx">05</span>Certificados</div>
-            <div class="section-title">Aprendizado contínuo</div>
-        </div>
-        <div class="certs-grid" id="certsGrid">
-            <!-- Certificates will be populated by JS -->
-        </div>
-    </section>
-
-    <!-- ========== SKILLS ========== -->
-    <section class="section" id="habilidades">
-        <div class="section-head">
-            <div class="section-label"><span class="idx">06</span>Habilidades</div>
-            <div class="section-title">Meu kit de ferramentas</div>
-        </div>
-        <div class="skills-container">
-            <div class="skill-category">
-                <h3>Linguagens &amp; Frameworks</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">C#</span>
-                    <span class="skill-tag">ASP.NET</span>
-                    <span class="skill-tag">Blazor</span>
-                    <span class="skill-tag">Webforms</span>
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">HTML</span>
-                    <span class="skill-tag">CSS</span>
-                    <span class="skill-tag">Java</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3>Bancos de Dados</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">PostgreSQL</span>
-                    <span class="skill-tag">SQL Server</span>
-                    <span class="skill-tag">MySQL</span>
-                    <span class="skill-tag">MongoDB</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3>Ferramentas &amp; DevOps</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">Azure DevOps</span>
-                    <span class="skill-tag">Azure Cloud</span>
-                    <span class="skill-tag">CI/CD</span>
-                    <span class="skill-tag">Git</span>
-                    <span class="skill-tag">Postman</span>
-                    <span class="skill-tag">Visual Studio</span>
-                    <span class="skill-tag">VS Code</span>
-                    <span class="skill-tag">Jira</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3>Tecnologias &amp; Conceitos</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">APIs REST</span>
-                    <span class="skill-tag">RabbitMQ</span>
-                    <span class="skill-tag">Hangfire</span>
-                    <span class="skill-tag">Clean Code</span>
-                    <span class="skill-tag">TDD</span>
-                    <span class="skill-tag">xUnit</span>
-                    <span class="skill-tag">NUnit</span>
-                    <span class="skill-tag">Bootstrap</span>
-                    <span class="skill-tag">Tailwind CSS</span>
-                    <span class="skill-tag">SOAP</span>
-                    <span class="skill-tag">JMeter</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-cta">Vamos trabalhar juntos?</div>
-            <p class="footer-text">Estou sempre aberto a novos desafios e oportunidades.</p>
-            <div class="footer-links">
-                <a href="https://br.linkedin.com/in/hebertemartins" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://github.com/BertMartins" class="footer-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="mailto:heberteuallan1@gmail.com" class="footer-link" aria-label="Email">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        /* ========== DARK MODE DETECTION ========== */
-        (function initTheme() {
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-            }
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(event) {
-                if (event.matches) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            });
-        })();
-
-        /* ========== NAVIGATION ========== */
-        var nav = document.getElementById('nav');
-        var navToggle = document.getElementById('navToggle');
-        var navLinks = document.getElementById('navLinks');
-
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        navToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('open');
-            var icon = navToggle.querySelector('i');
-            if (navLinks.classList.contains('open')) {
-                icon.className = 'fas fa-times';
-            } else {
-                icon.className = 'fas fa-bars';
-            }
-        });
-
-        navLinks.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
-                navLinks.classList.remove('open');
-                navToggle.querySelector('i').className = 'fas fa-bars';
-            });
-        });
-
-        /* ========== CERTIFICATES DATA ========== */
-        var certificates = [
-            { title: "Segurança da Informação e Privacidade de Dados", issuer: "BMI - Consultoria Inteligente", date: "Mai 2025" },
-            { title: "TDD em C# com xUnit, NUnit e Moq", issuer: "Udemy", date: "Mai 2025" },
-            { title: "Segurança em Tecnologia da Informação", issuer: "Fundação Bradesco", date: "Nov 2024" },
-            { title: "Lei Geral de Proteção de Dados (LGPD)", issuer: "Fundação Bradesco", date: "Nov 2024" },
-            { title: "Testes Automáticos — Curso Completo de Teste de Software", issuer: "Udemy", date: "Mai 2024" },
-            { title: "Análise e Desenvolvimento de Sistemas", issuer: "UNINASSAU", date: "Abr 2024" },
-            { title: "Inglês", issuer: "IFSUL — Instituto Federal Sul-rio-grandense", date: "Mar 2024" },
-            { title: "JMeter — Testes de Performance", issuer: "Udemy", date: "Jul 2023" },
-            { title: "Comunicação Não Violenta parte 2", issuer: "Alura", date: "Fev 2023" },
-            { title: "Engenharia de Requisitos: Levantar, Documentar e Validar", issuer: "Alura", date: "Fev 2023" },
-            { title: "Customer Success — Cultura Centrada em Cliente", issuer: "Alura", date: "Jan 2023" },
-            { title: "Prevenção à Lavagem de Dinheiro e Financiamento ao Terrorismo", issuer: "Compliasset", date: "Jul 2022" },
-            { title: "Lógica de Programação I: JavaScript e HTML", issuer: "Alura", date: "Mar 2022" },
-            { title: "Git e Github: Controle e Compartilhe seu Código", issuer: "Alura", date: "Mar 2022" }
-        ];
-
-        var certsGrid = document.getElementById('certsGrid');
-        certificates.forEach(function(cert) {
-            var row = document.createElement('div');
-            row.className = 'cert-row';
-            row.innerHTML =
-                '<div class="cert-info">' +
-                    '<h4>' + cert.title + '</h4>' +
-                    '<div class="cert-issuer">' + cert.issuer + '</div>' +
-                    '<div class="cert-date"><i class="far fa-calendar"></i> ' + cert.date + '</div>' +
-                '</div>';
-            certsGrid.appendChild(row);
-        });
-    </script>
+<script>
+  // Mostra a borda do topo só depois de rolar a página
+  var topBar = document.getElementById('top');
+  function onScroll() { topBar.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
 </body>
 </html>
